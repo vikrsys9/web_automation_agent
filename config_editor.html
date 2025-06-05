@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Automation Config</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%),
+                        url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Inter', Arial, sans-serif;
+            color: #22223b;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(60, 60, 120, 0.12);
+            padding: 32px 36px 28px 36px;
+        }
+        h1 {
+            text-align: center;
+            color: #3a0ca3;
+            font-weight: 600;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4361ee;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1.5px solid #bdbdfc;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f6f7fb;
+            color: #22223b;
+            transition: border 0.2s;
+        }
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        input:focus, select:focus {
+            border-color: #3a0ca3;
+            outline: none;
+        }
+        .section {
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e7ff;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(90deg, #4361ee 0%, #7209b7 100%);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 0;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(60, 60, 120, 0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #7209b7 0%, #4361ee 100%);
+            box-shadow: 0 4px 16px rgba(60, 60, 120, 0.14);
+        }
+        .row {
+            display: flex;
+            gap: 16px;
+        }
+        .row > div {
+            flex: 1;
+        }
+        .note {
+            color: #adb5bd;
+            font-size: 0.95em;
+            margin-bottom: 18px;
+        }
+        .tab-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            padding: 10px 18px;
+            border: none;
+            background: #e0e7ff;
+            color: #3a0ca3;
+            font-weight: 600;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tab-btn:hover, .tab-btn.active {
+            background: #7209b7;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+        }
+        #configTab {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Automation Config</h1>
+        <div class="tab-container">
+            <button class="tab-btn" onclick="showTab('configTab')">Config Editor</button>
+            <button class="tab-btn" onclick="showTab('testCaseTab')">Test Case Editor</button>
+            <button class="tab-btn" onclick="showTab('runTab')">Run Automation</button>
+        </div>
+        <div id="configTab" class="tab-content">
+            <form id="configForm">
+                <div class="section">
+                    <label for="browser">Browser</label>
+                    <select id="browser" name="browser">
+                        <option value="chromium">Chromium</option>
+                        <option value="firefox">Firefox</option>
+                        <option value="webkit">Webkit</option>
+                    </select>
+                    <label><input type="checkbox" id="headless" name="headless"> Headless Mode</label>
+                    <label for="screenshot_dir">Screenshot Directory</label>
+                    <input type="text" id="screenshot_dir" name="screenshot_dir">
+                </div>
+                <div class="section row">
+                    <div>
+                        <label for="max_parallel_tests">Max Parallel Tests</label>
+                        <input type="number" id="max_parallel_tests" name="max_parallel_tests" min="1">
+                    </div>
+                    <div>
+                        <label for="retry_attempts">Retry Attempts</label>
+                        <input type="number" id="retry_attempts" name="retry_attempts" min="0">
+                    </div>
+                    <div>
+                        <label for="retry_delay">Retry Delay (s)</label>
+                        <input type="number" id="retry_delay" name="retry_delay" min="0">
+                    </div>
+                </div>
+                <div class="section row">
+                    <div>
+                        <label for="timeout">Timeout (ms)</label>
+                        <input type="number" id="timeout" name="timeout" min="0">
+                    </div>
+                    <div>
+                        <label for="viewport_width">Viewport Width</label>
+                        <input type="number" id="viewport_width" name="viewport_width" min="0">
+                    </div>
+                    <div>
+                        <label for="viewport_height">Viewport Height</label>
+                        <input type="number" id="viewport_height" name="viewport_height" min="0">
+                    </div>
+                </div>
+                <div class="section">
+                    <label><input type="checkbox" id="mobile_enabled" name="mobile_enabled"> Mobile Emulation</label>
+                    <div id="mobileSection" style="display:none; margin-top: 10px;">
+                        <label for="mobile_device">Device</label>
+                        <input type="text" id="mobile_device" name="mobile_device">
+                        <label for="mobile_orientation">Orientation</label>
+                        <select id="mobile_orientation" name="mobile_orientation">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                        <div class="note">Custom Device (optional):</div>
+                        <label for="custom_device_name">Name</label>
+                        <input type="text" id="custom_device_name" name="custom_device_name">
+                        <div class="row">
+                            <div>
+                                <label for="custom_viewport_width">Width</label>
+                                <input type="number" id="custom_viewport_width" name="custom_viewport_width" min="0">
+                            </div>
+                            <div>
+                                <label for="custom_viewport_height">Height</label>
+                                <input type="number" id="custom_viewport_height" name="custom_viewport_height" min="0">
+                            </div>
+                        </div>
+                        <label for="custom_device_scale_factor">Device Scale Factor</label>
+                        <input type="number" id="custom_device_scale_factor" name="custom_device_scale_factor" min="1">
+                        <label><input type="checkbox" id="custom_is_mobile" name="custom_is_mobile"> Is Mobile</label>
+                        <label><input type="checkbox" id="custom_has_touch" name="custom_has_touch"> Has Touch</label>
+                        <label for="custom_user_agent">User Agent</label>
+                        <input type="text" id="custom_user_agent" name="custom_user_agent">
+                    </div>
+                </div>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+        <div id="testCaseTab" class="tab-content" style="display:none;">
+            <h2>Edit test_case.json</h2>
+            <textarea id="testCaseArea" style="width:100%;height:300px;"></textarea>
+            <div id="testCaseStatus" style="margin:8px 0; color:#3a0ca3;"></div>
+            <button onclick="saveTestCase()" class="btn" id="saveTestCaseBtn">Save Test Case</button>
+        </div>
+        <div id="runTab" class="tab-content" style="display:none;">
+            <h2>Run Automation</h2>
+            <button onclick="runAutomation()" class="btn" id="runMainBtn">Run main.py</button>
+            <div id="runStatus" style="margin:8px 0; color:#3a0ca3;"></div>
+            <pre id="runOutput" style="background:#f6f7fb;padding:10px;border-radius:8px;max-height:300px;overflow:auto;"></pre>
+        </div>
+    </div>
+    <script>
+        // Example config (replace with fetch from backend in real use)
+        const config = {
+            "browser": "chromium",
+            "headless": false,
+            "screenshot_dir": "screenshots",
+            "max_parallel_tests": 1,
+            "retry_attempts": 3,
+            "retry_delay": 2,
+            "timeout": 5000,
+            "viewport": {
+                "width": 1280,
+                "height": 720
+            },
+            "mobile": {
+                "enabled": false,
+                "device": "iPhone 12",
+                "orientation": "portrait",
+                "custom_device": {
+                    "name": "iPhone 12",
+                    "viewport": {
+                        "width": 375,
+                        "height": 812
+                    },
+                    "device_scale_factor": 3,
+                    "is_mobile": true,
+                    "has_touch": true,
+                    "user_agent": "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
+                }
+            }
+        };
+
+        // Populate form with config values
+        function populateForm(cfg) {
+            document.getElementById('browser').value = cfg.browser;
+            document.getElementById('headless').checked = cfg.headless;
+            document.getElementById('screenshot_dir').value = cfg.screenshot_dir;
+            document.getElementById('max_parallel_tests').value = cfg.max_parallel_tests;
+            document.getElementById('retry_attempts').value = cfg.retry_attempts;
+            document.getElementById('retry_delay').value = cfg.retry_delay;
+            document.getElementById('timeout').value = cfg.timeout;
+            document.getElementById('viewport_width').value = cfg.viewport.width;
+            document.getElementById('viewport_height').value = cfg.viewport.height;
+            document.getElementById('mobile_enabled').checked = cfg.mobile.enabled;
+            document.getElementById('mobileSection').style.display = cfg.mobile.enabled ? 'block' : 'none';
+            document.getElementById('mobile_device').value = cfg.mobile.device;
+            document.getElementById('mobile_orientation').value = cfg.mobile.orientation;
+            document.getElementById('custom_device_name').value = cfg.mobile.custom_device.name;
+            document.getElementById('custom_viewport_width').value = cfg.mobile.custom_device.viewport.width;
+            document.getElementById('custom_viewport_height').value = cfg.mobile.custom_device.viewport.height;
+            document.getElementById('custom_device_scale_factor').value = cfg.mobile.custom_device.device_scale_factor;
+            document.getElementById('custom_is_mobile').checked = cfg.mobile.custom_device.is_mobile;
+            document.getElementById('custom_has_touch').checked = cfg.mobile.custom_device.has_touch;
+            document.getElementById('custom_user_agent').value = cfg.mobile.custom_device.user_agent;
+        }
+
+        document.getElementById('mobile_enabled').addEventListener('change', function() {
+            document.getElementById('mobileSection').style.display = this.checked ? 'block' : 'none';
+        });
+
+        document.getElementById('configForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Gather form data
+            const newConfig = {
+                browser: document.getElementById('browser').value,
+                headless: document.getElementById('headless').checked,
+                screenshot_dir: document.getElementById('screenshot_dir').value,
+                max_parallel_tests: parseInt(document.getElementById('max_parallel_tests').value),
+                retry_attempts: parseInt(document.getElementById('retry_attempts').value),
+                retry_delay: parseInt(document.getElementById('retry_delay').value),
+                timeout: parseInt(document.getElementById('timeout').value),
+                viewport: {
+                    width: parseInt(document.getElementById('viewport_width').value),
+                    height: parseInt(document.getElementById('viewport_height').value)
+                },
+                mobile: {
+                    enabled: document.getElementById('mobile_enabled').checked,
+                    device: document.getElementById('mobile_device').value,
+                    orientation: document.getElementById('mobile_orientation').value,
+                    custom_device: {
+                        name: document.getElementById('custom_device_name').value,
+                        viewport: {
+                            width: parseInt(document.getElementById('custom_viewport_width').value),
+                            height: parseInt(document.getElementById('custom_viewport_height').value)
+                        },
+                        device_scale_factor: parseInt(document.getElementById('custom_device_scale_factor').value),
+                        is_mobile: document.getElementById('custom_is_mobile').checked,
+                        has_touch: document.getElementById('custom_has_touch').checked,
+                        user_agent: document.getElementById('custom_user_agent').value
+                    }
+                }
+            };
+            // Send newConfig to backend to update automation_config.json
+            fetch('/api/save-config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newConfig)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Config saved successfully!');
+                } else {
+                    alert('Failed to save config: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                alert('Error saving config: ' + err.message);
+            });
+        });
+
+        // On page load
+        populateForm(config);
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+        }
+
+        // Test Case Editor
+        function loadTestCase() {
+            document.getElementById('testCaseStatus').textContent = 'Loading...';
+            fetch('/api/get-test-case')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('testCaseArea').value = data.content;
+                        document.getElementById('testCaseStatus').textContent = '';
+                    } else {
+                        document.getElementById('testCaseStatus').textContent = 'Failed to load: ' + (data.error || 'Unknown error');
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('testCaseStatus').textContent = 'Error: ' + err.message;
+                });
+        }
+        function saveTestCase() {
+            const btn = document.getElementById('saveTestCaseBtn');
+            const status = document.getElementById('testCaseStatus');
+            let content = document.getElementById('testCaseArea').value;
+            // Validate JSON
+            try {
+                JSON.parse(content);
+            } catch (e) {
+                status.style.color = 'red';
+                status.textContent = 'Invalid JSON: ' + e.message;
+                return;
+            }
+            btn.disabled = true;
+            status.style.color = '#3a0ca3';
+            status.textContent = 'Saving...';
+            fetch('/api/save-test-case', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    status.style.color = 'green';
+                    status.textContent = 'Test case saved!';
+                    loadTestCase(); // reload to reflect any formatting
+                } else {
+                    status.style.color = 'red';
+                    status.textContent = 'Failed to save: ' + (data.error || 'Unknown error');
+                }
+            })
+            .catch(err => {
+                status.style.color = 'red';
+                status.textContent = 'Error: ' + err.message;
+            })
+            .finally(() => {
+                btn.disabled = false;
+            });
+        }
+
+        // Run Automation
+        function runAutomation() {
+            const btn = document.getElementById('runMainBtn');
+            const status = document.getElementById('runStatus');
+            const output = document.getElementById('runOutput');
+            btn.disabled = true;
+            status.style.color = '#3a0ca3';
+            status.textContent = 'Running...';
+            output.textContent = '';
+            fetch('/api/run-main', { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        status.style.color = 'green';
+                        status.textContent = 'main.py executed successfully.';
+                        output.textContent = data.stdout || '(No output)';
+                        if (data.stderr) {
+                            output.textContent += '\n\n[stderr]\n' + data.stderr;
+                        }
+                    } else {
+                        status.style.color = 'red';
+                        status.textContent = 'main.py failed.';
+                        output.textContent = (data.stderr ? '[stderr]\n' + data.stderr + '\n' : '') +
+                                             (data.stdout ? '[stdout]\n' + data.stdout + '\n' : '') +
+                                             (data.error ? '[error]\n' + data.error : '');
+                    }
+                })
+                .catch(err => {
+                    status.style.color = 'red';
+                    status.textContent = 'Error: ' + err.message;
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                });
+        }
+
+        // Load test case when switching to that tab
+        document.querySelector('.tab-btn[onclick*="testCaseTab"]').addEventListener('click', loadTestCase);
+    </script>
+</body>
+</html> 

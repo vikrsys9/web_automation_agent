@@ -1,0 +1,9 @@
+{
+  "Login Id": "#txtLoginId",
+  "Password": "input[id=txtPassword]",
+  "Login Button": "button[id=btnLogin]",
+  "Receive button should be display": "input[id=\"btnReceiveMaterial\"]",
+  "Click on Receive button": "input[id=\"btnReceiveMaterial\"]",
+  "Click on Back to List button": "input[id=\"btnBackToList\"]",
+  "Click on MC Config": "//a[@id='700']"
+}

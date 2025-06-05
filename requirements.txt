@@ -1,0 +1,5 @@
+playwright
+flask
+flask-cors
+beautifulsoup4
+google-generativeai 

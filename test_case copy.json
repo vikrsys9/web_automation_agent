@@ -1,0 +1,6 @@
+[
+  {
+    "goal": "Validate MC Login Page",
+    "action": "Open the http://10.131.73.233/PanaCIMMC/. Enter System in Login Id. Enter System in Password. Wait for 2 seconds. Click on the Login Button. Wait for 2 seconds. Verify the Dashboard Page, Receive button should be display. Wait for 3 seconds. Click on Receive button. Click on Back to List button. Wait for 2 seconds. Click on MC Config. Click on Part Config. Click on Location. Wait for 2 seconds. Close the browser"
+  }
+]
